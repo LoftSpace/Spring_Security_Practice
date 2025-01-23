@@ -1,23 +1,21 @@
 package moin.demo.dto;
 
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.*;
 
-import lombok.NoArgsConstructor;
 import moin.demo.domain.User;
 
+@Builder
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-//@AllArgsConstructor
+@AllArgsConstructor
 public class SignupRequestDto {
 
 
     private String userId;
     private String password;
     private String name;
-    private String type;
+    private String idType;
     private String idValue;
 
 
@@ -25,8 +23,8 @@ public class SignupRequestDto {
         return User.builder()
                 .userId(userId)
                 .password(password)
-                .username(name)
-                .type(type)
+                .name(name)
+                .idType(idType)
                 .idValue(idValue)
                 .build();
     }

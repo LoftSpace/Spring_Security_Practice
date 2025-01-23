@@ -20,13 +20,13 @@ public class User {
     private String password;
 
     @Column(name = "type", nullable = false)
-    private String type;
+    private String idType;
 
     @Column(name = "idValue", nullable = false)
     private String idValue;
 
     @Column(name = "username", nullable = false)
-    private String username;
+    private String name;
 
     protected User() {}
 }

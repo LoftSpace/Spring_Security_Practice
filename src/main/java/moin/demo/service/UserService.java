@@ -2,6 +2,7 @@ package moin.demo.service;
 
 import lombok.RequiredArgsConstructor;
 import moin.demo.domain.User;
+import moin.demo.dto.LoginRequestDto;
 import moin.demo.dto.SignupRequestDto;
 import moin.demo.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,19 @@ public class UserService {
             throw new IllegalArgumentException("이미 존재하는 아이디입니다.");
         }
         userRepository.save(user);
+
     }
+
+    @Transactional
+    public void login(LoginRequestDto loginRequestDto){
+        User user = userRepository.findByUserId(loginRequestDto.getUserId())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid Id"));
+
+        //비밀번호 확인 로직
+
+        //토큰 반환
+    }
+
     /*
     private String encryptPassword(String password) {
         return BCrypt.hashpw(password,BCrypt.gensalt());
