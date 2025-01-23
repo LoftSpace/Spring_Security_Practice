@@ -23,7 +23,7 @@ public class SignupRequestDto {
         return User.builder()
                 .userId(userId)
                 .password(password)
-                .name(name)
+                .username(name)
                 .idType(idType)
                 .idValue(idValue)
                 .build();
