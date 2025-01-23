@@ -6,7 +6,6 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @Getter
-@Setter
 @Entity
 @Table(name = "Users")
 public class User {
@@ -29,4 +28,11 @@ public class User {
     private String name;
 
     protected User() {}
+
+    public void updateToEncodedPassword(String encryptedPassword){
+        this.password = encryptedPassword;
+    }
+    public void updateToEncodedIdType(String encryptedIdType){
+        this.idType = encryptedIdType;
+    }
 }
