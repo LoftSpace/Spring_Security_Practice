@@ -5,10 +5,8 @@ import moin.demo.dto.JwtToken;
 import moin.demo.dto.LoginRequestDto;
 import moin.demo.dto.SignupRequestDto;
 import moin.demo.service.UserService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -44,11 +42,7 @@ public class UserController {
                     Map.of("resultCode", 400, "resultMsg", "비정상적인 접근입니다."));
         }
     }
-    @ExceptionHandler(UsernameNotFoundException.class)
-    public ResponseEntity<String> handleUsernameNotFoundException(UsernameNotFoundException ex) {
-        return ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body(ex.getMessage());
-    }
+
+
 
 }
