@@ -10,12 +10,14 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.nio.charset.Charset;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class ExchangeRateService {
 
-    private final WebClient webClient;
+   // private final WebClient webClient;
+
     public ExchangeRateFromUpbitDto getExchangeRate(String currency) {
         String codeParameter = getCurrencyCode(currency);
         URI uri = UriComponentsBuilder
@@ -25,10 +27,12 @@ public class ExchangeRateService {
                 .encode(Charset.defaultCharset())
                 .build()
                 .toUri();
-
+        System.out.println(uri.toString());
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<ExchangeRateFromUpbitDto> exchangeRateFromUpbit = restTemplate.getForEntity(uri, ExchangeRateFromUpbitDto.class);
-        return exchangeRateFromUpbit.getBody();
+        //ResponseEntity<ExchangeRateFromUpbitDto> exchangeRateFromUpbit = restTemplate.getForEntity(uri, ExchangeRateFromUpbitDto.class);
+        ResponseEntity<ExchangeRateFromUpbitDto[]> exchangeRateFromUpbit = restTemplate.getForEntity(uri, ExchangeRateFromUpbitDto[].class);
+
+        return exchangeRateFromUpbit.getBody()[0];
 
     }
     private String getCurrencyCode(String currency) {

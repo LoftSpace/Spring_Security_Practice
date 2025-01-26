@@ -3,6 +3,7 @@ package moin.demo.service;
 import lombok.RequiredArgsConstructor;
 import moin.demo.domain.Quote;
 import moin.demo.dto.ExchangeRateFromUpbitDto;
+import moin.demo.repository.QuoteRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -12,8 +13,8 @@ import java.util.Currency;
 @RequiredArgsConstructor
 public class USDService implements CurrencyService{
 
-    public final ExchangeRateService exchangeRateService;
-
+    private final ExchangeRateService exchangeRateService;
+    private final QuoteRepository quoteRepository;
     @Override
     public Quote calculateQuote(Long amount) {
         Currency usd = Currency.getInstance("USD");
@@ -27,13 +28,11 @@ public class USDService implements CurrencyService{
             LocalDateTime expireTime = getExpireTime();
             //quote 생성 및 디비 저장
             Quote quote = Quote.builder()
-                    .quoteId()
                     .exchangeRate(exchangeRate)
                     .expireTime(expireTime)
                     .targetAmount(targetAmount)
                     .build();
-
-            return quote;
+            return quoteRepository.save(quote);
         } else {
             throw new IllegalArgumentException("NEGATIVE_NUMBER");
         }

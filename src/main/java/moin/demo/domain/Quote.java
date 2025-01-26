@@ -18,16 +18,17 @@ public class Quote {
     private Long quoteId;
 
     @Column(name = "exchangeRate", nullable = false)
-    private Long exchangeRate;
+    private Double exchangeRate;
 
     @Column(name = "expireTime", nullable = false)
     private LocalDateTime expireTime;
 
     @Column(name = "targetAmount",nullable = false)
-    private Long targetAmount;
+    private Double targetAmount;
 
+    protected Quote() {}
     @Builder
-    public Quote(Long quoteId, Long exchangeRate, LocalDateTime expireTime, Long targetAmount){
+    public Quote(Long quoteId, Double exchangeRate, LocalDateTime expireTime, Double targetAmount){
         this.quoteId = quoteId;
         this.exchangeRate = exchangeRate;
         this.expireTime = expireTime;

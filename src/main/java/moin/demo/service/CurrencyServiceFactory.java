@@ -18,9 +18,9 @@ public class CurrencyServiceFactory {
     public CurrencyService getService(String currency) {
         switch(currency) {
             case "USD":
-                return currencyServices.get("USDSerivce");
+                return currencyServices.get("USDService");
             case "JPY":
-                return currencyServices.get("JPYServices");
+                return currencyServices.get("JPYService");
             default:
                 throw new IllegalArgumentException("지원되지 않는 통화입니다.");
         }
