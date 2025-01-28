@@ -35,6 +35,21 @@ public class User implements UserDetails {
     @Column(name = "username", nullable = false)
     private String username;
 
+    @Column(name = "todayTransferCount")
+    private Long todayTransferCount;
+
+    @Column(name = "todayTransferUsdAmount")
+    private Long todayTransferUsdAmount;
+
+    @PrePersist
+    public void setDefaultValues() {
+        if (todayTransferCount == null) {
+            todayTransferCount = 0L;  // 디폴트 값을 0으로 설정
+        }
+        if( todayTransferUsdAmount ==null){
+            todayTransferUsdAmount = 0L;
+        }
+    }
     protected User() {}
 
     public void updateToEncodedPassword(String encryptedPassword){
@@ -44,6 +59,9 @@ public class User implements UserDetails {
         this.idType = encryptedIdType;
     }
 
+    public  void  addRoles(List<String> newRoles) {
+        this.roles.addAll(newRoles);
+    }
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
     private List<String> roles = new ArrayList<>();

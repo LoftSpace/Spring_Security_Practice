@@ -7,6 +7,7 @@ import moin.demo.repository.QuoteRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Currency;
 
 @Service("USDService")
@@ -15,6 +16,7 @@ public class USDService implements CurrencyService{
 
     private final ExchangeRateService exchangeRateService;
     private final QuoteRepository quoteRepository;
+
     @Override
     public Quote calculateQuote(Long amount) {
         Currency usd = Currency.getInstance("USD");
@@ -25,23 +27,29 @@ public class USDService implements CurrencyService{
         if(amount - totalFee > 0) {
             double exchangeRate = getExchangeRate(multiplier);
             double targetAmount = (amount - totalFee) * multiplier / exchangeRate * multiplier;
-            LocalDateTime expireTime = getExpireTime();
+            targetAmount = Math.round(targetAmount * multiplier) / multiplier;
+            String expireTime = getExpireTime();
             //quote 생성 및 디비 저장
-            Quote quote = Quote.builder()
+            return  Quote.builder()
+                    .sourceAmount(amount)
                     .exchangeRate(exchangeRate)
                     .expireTime(expireTime)
                     .targetAmount(targetAmount)
                     .build();
-            return quoteRepository.save(quote);
+
         } else {
             throw new IllegalArgumentException("NEGATIVE_NUMBER");
         }
 
     }
 
-    private static LocalDateTime getExpireTime() {
+    private static String getExpireTime() {
         LocalDateTime currentDateTime = LocalDateTime.now();
-        return currentDateTime.plusMinutes(10);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedDateTime = currentDateTime
+                .plusMinutes(10)
+                .format(formatter);
+        return formattedDateTime;
 
     }
 
@@ -65,7 +73,8 @@ public class USDService implements CurrencyService{
 
     private double getExchangeRate(double multiplier){
         ExchangeRateFromUpbitDto exchangeRateFromUpbitDto = exchangeRateService.getExchangeRate("USD");
-        double rate = (long)(exchangeRateFromUpbitDto.getBasePrice() * multiplier) / exchangeRateFromUpbitDto.getCurrencyUnit() * multiplier;
-        return rate;
+        double exchangeRate = Math.round(exchangeRateFromUpbitDto.getBasePrice() * multiplier) / multiplier;
+        double rate = (exchangeRate * multiplier) / (exchangeRateFromUpbitDto.getCurrencyUnit() * multiplier);
+        return Math.round(rate * multiplier) / multiplier;
     }
 }

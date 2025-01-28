@@ -31,9 +31,11 @@ public class JwtTokenProvider {
     }
 
     public JwtToken generateToken(Authentication authentication){
+
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
+
 
         long now = (new Date()).getTime();
 

@@ -22,6 +22,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
         User user = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new UsernameNotFoundException("존재하지 않는 아이디입니다."));
+
         return User.builder()
                 .username(userId)
                 .password(user.getPassword())

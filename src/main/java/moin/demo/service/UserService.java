@@ -15,6 +15,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -33,11 +36,14 @@ public class UserService {
 
         user.updateToEncodedPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.updateToEncodedIdType(bCryptPasswordEncoder.encode(user.getIdType()));
+        List<String> roles = new ArrayList<>();
+        roles.add("USER");
+        user.addRoles(roles);
         userRepository.save(user);
     }
 
     @Transactional
-    public JwtToken login(LoginRequestDto loginRequestDto){
+    public String login(LoginRequestDto loginRequestDto){
 
         String userId = loginRequestDto.getUserId();
 
@@ -49,8 +55,8 @@ public class UserService {
                 authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
         JwtToken jwtToken = jwtTokenProvider.generateToken(authentication);
+        return jwtToken.getAccessToken();
 
-        return jwtToken;
     }
 
 

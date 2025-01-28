@@ -35,7 +35,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/user/signup").permitAll()
                         .requestMatchers("/user/login").permitAll()
-                        .requestMatchers("/transfer/quote").permitAll()
+                        .requestMatchers("/transfer/quote").hasRole("USER")
                         .anyRequest().authenticated()
                 )
                 .httpBasic(httpBasic -> httpBasic.disable()) // Updated syntax

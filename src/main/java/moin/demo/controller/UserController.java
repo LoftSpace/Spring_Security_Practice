@@ -33,7 +33,7 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequestDto loginRequestDto){
         try{
-            JwtToken jwtToken = userService.login(loginRequestDto);
+            String jwtToken = userService.login(loginRequestDto);
             return ResponseEntity.ok()
                     .body(
                         Map.of("resultCode",200,"resultMsg","OK","token",jwtToken));
