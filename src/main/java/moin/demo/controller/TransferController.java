@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import moin.demo.domain.Quote;
 import moin.demo.dto.QuoteCreateRequestDto;
 import moin.demo.dto.QuoteRequestDto;
-import moin.demo.service.QuoteService;
 import moin.demo.service.TransferService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,15 +19,30 @@ import java.util.Map;
 public class TransferController {
 
     private final TransferService transferService;
-    private final QuoteService quoteService;
 
-    @GetMapping("/request")
+    @PostMapping("/request")
     public ResponseEntity<?> requestQuote(@RequestBody QuoteRequestDto quoteRequestDto){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userId = authentication.getName();
-        String quoteId = quoteRequestDto.getQuoteId();
-        transferService.handleTransfer(userId,quoteId);
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String userId = authentication.getName();
+            String quoteId = quoteRequestDto.getQuoteId();
+            transferService.transfer(userId, quoteId);
+            return ResponseEntity.ok().body(
+                    Map.of("resultCode",200,"resulrMsg","OK"));
+        } catch (IllegalArgumentException  e){
+            String errorMessage = e.getMessage();
 
+            if(errorMessage.equals("LIMIT_EXCESS"))
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    Map.of("resultCode", 400, "resultMsg", "LIMIT_EXCESS"));
+            else if(errorMessage.equals("QUOTE_EXPIRED"))
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    Map.of("resultCode", 400, "resultMsg", "QUOTE_EXPIRED"));
+            else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                        Map.of("resultCode", 500, "resultMsg", "UNKNOWN_ERROR"));
+            }
+        }
     }
 
     @PostMapping("/quote")

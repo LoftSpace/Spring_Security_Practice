@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 @Service
 @RequiredArgsConstructor
@@ -31,17 +30,16 @@ public class TransferService {
         return quoteService.saveQuote(quote);
 
     }
-    public void handleTransfer(String userId, String quoteId) throws  IllegalArgumentException{
+    public void transfer(String userId, String quoteId) throws  IllegalArgumentException{
         Quote quote = quoteService.getQuote(quoteId);
         User user = userRepository.findByUserId(userId).get();
-        LocalDateTime currentDateTime = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String formattedCurrentDateTime = currentDateTime.format(formatter);
 
-        if(formattedCurrentDateTime.compareTo(quote.getExpireTime()) >= 0){
-            throw new IllegalArgumentException("QUOTE_EXPIRED");
-        }
+        checkIsQuoteExpired(quote);
+        checkTodayTransderedAmount(user, quote);
+        userRepository.updateTransferCountAndAmount(userId,quote.getSourceAmount());
+    }
 
+    private static void checkTodayTransderedAmount(User user, Quote quote) {
         String userType = user.getIdType();
         if(userType.equals("REG_NO")) {
             if(quote.getSourceAmount() + user.getTodayTransferUsdAmount() >= 1000) {
@@ -53,10 +51,16 @@ public class TransferService {
                 throw new IllegalArgumentException("LIMIT_EXCESS");
             }
         }
+    }
 
-        Long sourceAmount = quote.getSourceAmount();
-        userRepository.updateTransferCountAndAmount(userId,sourceAmount);
+    private static void checkIsQuoteExpired(Quote quote) {
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formattedCurrentDateTime = currentDateTime.format(formatter);
 
+        if(formattedCurrentDateTime.compareTo(quote.getExpireTime()) >= 0){
+            throw new IllegalArgumentException("QUOTE_EXPIRED");
+        }
     }
 
 }
