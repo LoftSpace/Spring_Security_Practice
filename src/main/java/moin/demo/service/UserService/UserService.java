@@ -1,4 +1,4 @@
-package moin.demo.service;
+package moin.demo.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 import moin.demo.domain.User;
@@ -7,7 +7,6 @@ import moin.demo.dto.LoginRequestDto;
 import moin.demo.dto.SignupRequestDto;
 import moin.demo.repository.UserRepository;
 import moin.demo.security.JwtTokenProvider;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;

@@ -1,4 +1,4 @@
-package moin.demo.service;
+package moin.demo.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 import moin.demo.domain.User;

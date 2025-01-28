@@ -3,7 +3,7 @@ package moin.demo.service;
 import moin.demo.domain.User;
 import moin.demo.dto.SignupRequestDto;
 import moin.demo.repository.UserRepository;
-import org.assertj.core.api.Assertions;
+import moin.demo.service.UserService.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 

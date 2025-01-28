@@ -1,10 +1,12 @@
-package moin.demo.service;
+package moin.demo.service.TransferService;
 
 import lombok.RequiredArgsConstructor;
 import moin.demo.domain.Quote;
 import moin.demo.domain.User;
 import moin.demo.dto.QuoteCreateRequestDto;
 import moin.demo.repository.UserRepository;
+import moin.demo.service.CurrencyService.CurrencyService;
+import moin.demo.service.CurrencyService.CurrencyServiceFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

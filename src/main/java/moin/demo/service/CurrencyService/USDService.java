@@ -1,9 +1,9 @@
-package moin.demo.service;
+package moin.demo.service.CurrencyService;
 
 import lombok.RequiredArgsConstructor;
 import moin.demo.domain.Quote;
 import moin.demo.dto.ExchangeRateFromUpbitDto;
-import moin.demo.repository.QuoteRepository;
+import moin.demo.service.TransferService.ExchangeRateService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -12,10 +12,10 @@ import java.util.Currency;
 
 @Service("USDService")
 @RequiredArgsConstructor
-public class USDService implements CurrencyService{
+public class USDService implements CurrencyService {
 
     private final ExchangeRateService exchangeRateService;
-    private final QuoteRepository quoteRepository;
+
 
     @Override
     public Quote calculateQuote(Long amount) {

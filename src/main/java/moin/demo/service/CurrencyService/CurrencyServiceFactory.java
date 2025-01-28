@@ -1,4 +1,4 @@
-package moin.demo.service;
+package moin.demo.service.CurrencyService;
 
 import org.springframework.stereotype.Service;
 
@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class CurrencyServiceFactory {
-    private final Map<String,CurrencyService> currencyServices;
+    private final Map<String, CurrencyService> currencyServices;
 
     public CurrencyServiceFactory(List<CurrencyService> services) {
         this.currencyServices = services.stream()

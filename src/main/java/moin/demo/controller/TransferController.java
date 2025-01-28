@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import moin.demo.domain.Quote;
 import moin.demo.dto.QuoteCreateRequestDto;
 import moin.demo.dto.QuoteRequestDto;
-import moin.demo.service.TransferService;
+import moin.demo.service.TransferService.TransferService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -28,7 +28,7 @@ public class TransferController {
             String quoteId = quoteRequestDto.getQuoteId();
             transferService.transfer(userId, quoteId);
             return ResponseEntity.ok().body(
-                    Map.of("resultCode",200,"resulrMsg","OK"));
+                    Map.of("resultCode",200,"resultMsg","OK"));
         } catch (IllegalArgumentException  e){
             String errorMessage = e.getMessage();
 
@@ -53,7 +53,7 @@ public class TransferController {
             Quote quote = transferService.createQuote(quoteCreateRequestDto,userId);
 
             return ResponseEntity.ok().body(
-                    Map.of("resultCode",200,"resulrMsg","OK","quote",quote)
+                    Map.of("resultCode",200,"resultMsg","OK","quote",quote)
             );
 
         } catch(IllegalArgumentException e) {

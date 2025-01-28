@@ -1,16 +1,14 @@
-package moin.demo.service;
+package moin.demo.service.TransferService;
 
 import lombok.RequiredArgsConstructor;
 import moin.demo.dto.ExchangeRateFromUpbitDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.nio.charset.Charset;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

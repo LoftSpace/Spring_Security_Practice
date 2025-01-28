@@ -1,10 +1,9 @@
 package moin.demo.controller;
 
 import lombok.RequiredArgsConstructor;
-import moin.demo.dto.JwtToken;
 import moin.demo.dto.LoginRequestDto;
 import moin.demo.dto.SignupRequestDto;
-import moin.demo.service.UserService;
+import moin.demo.service.UserService.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.*;
