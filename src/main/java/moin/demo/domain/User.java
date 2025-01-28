@@ -55,8 +55,8 @@ public class User implements UserDetails {
     public void updateToEncodedPassword(String encryptedPassword){
         this.password = encryptedPassword;
     }
-    public void updateToEncodedIdType(String encryptedIdType){
-        this.idType = encryptedIdType;
+    public void updateToEncodedIdValue(String encryptedIdValue){
+        this.idValue = encryptedIdValue;
     }
 
     public  void  addRoles(List<String> newRoles) {
@@ -97,4 +97,6 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return UserDetails.super.isEnabled();
     }
+
+
 }

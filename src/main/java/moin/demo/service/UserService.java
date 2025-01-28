@@ -35,7 +35,7 @@ public class UserService {
             throw new IllegalArgumentException("이미 존재하는 아이디입니다.");
 
         user.updateToEncodedPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.updateToEncodedIdType(bCryptPasswordEncoder.encode(user.getIdType()));
+        user.updateToEncodedIdValue(bCryptPasswordEncoder.encode(user.getIdValue()));
         List<String> roles = new ArrayList<>();
         roles.add("USER");
         user.addRoles(roles);

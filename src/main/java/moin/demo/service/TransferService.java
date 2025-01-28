@@ -30,17 +30,19 @@ public class TransferService {
         return quoteService.saveQuote(quote);
 
     }
+
     public void transfer(String userId, String quoteId) throws  IllegalArgumentException{
         Quote quote = quoteService.getQuote(quoteId);
         User user = userRepository.findByUserId(userId).get();
 
         checkIsQuoteExpired(quote);
-        checkTodayTransderedAmount(user, quote);
+        checkTodayTransferedAmount(user, quote);
         userRepository.updateTransferCountAndAmount(userId,quote.getSourceAmount());
     }
 
-    private static void checkTodayTransderedAmount(User user, Quote quote) {
+    private static void checkTodayTransferedAmount(User user, Quote quote) {
         String userType = user.getIdType();
+
         if(userType.equals("REG_NO")) {
             if(quote.getSourceAmount() + user.getTodayTransferUsdAmount() >= 1000) {
                 throw new IllegalArgumentException("LIMIT_EXCESS");
